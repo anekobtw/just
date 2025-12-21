@@ -13,7 +13,7 @@ function AddWebsite() {
 
   return (
     <div className="min-h-screen bg-(--alice-blue) flex items-center justify-center px-4">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8">
+      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl shadow-[#70BAFF]/20 p-8">
         <h1 className="text-3xl font-bold text-gray-700 mb-2 text-center">
           Add Your Website
         </h1>
@@ -54,7 +54,7 @@ function AddWebsite() {
 
           <button
             type="submit"
-            className="w-full bg-(--cool-sky) text-white px-8 py-4 rounded-lg hover:bg-(--azure-blue) transition-all shadow-lg hover:shadow-xl font-medium cursor-pointer hover:scale-105"
+            className="w-full bg-(--cool-sky) text-white px-8 py-4 rounded-lg hover:bg-(--azure-blue) transition-all shadow-lg shadow-[#70BAFF]/30 hover:shadow-xl hover:shadow-[#70BAFF]/40 font-medium cursor-pointer hover:scale-105"
           >
             Start Monitoring
           </button>

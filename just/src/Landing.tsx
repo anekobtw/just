@@ -47,7 +47,7 @@ function Hero() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
-            <button className="bg-(--cool-sky) text-white px-8 py-4 rounded-lg hover:bg-(--azure-blue) cursor-pointer transition-all gap-2 shadow-lg shadow-blue-200 hover:scale-105" onClick={() => navigate('/add-website')}>
+            <button className="bg-(--cool-sky) text-white px-8 py-4 rounded-lg hover:bg-(--azure-blue) cursor-pointer transition-all gap-2 shadow-lg shadow-[#70BAFF]/30 hover:scale-105" onClick={() => navigate('/add-website')}>
               Start For Free
             </button>
           </div>
