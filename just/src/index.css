@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+
+:root {
+  --color-primary: #1B3C53;
+  --color-secondary: #234C6A;
+  --color-accent: #456882;
+  --color-surface: #E3E3E3;
+  background-color: var(--color-surface);
+  font-family: "Changa One", sans-serif;
+}
+
+/* Backgrounds */
+.bg-primary { background-color: var(--color-primary); }
+.bg-secondary { background-color: var(--color-secondary); }
+.bg-accent { background-color: var(--color-accent); }
+.bg-surface { background-color: var(--color-surface); }
+
+/* Text colors */
+.text-primary { color: var(--color-primary); }
+.text-secondary { color: var(--color-secondary); }
+.text-accent { color: var(--color-accent); }
+.text-surface { color: var(--color-surface); }
+
+/* Borders */
+.border-primary { border-color: var(--color-primary); }
+.border-secondary { border-color: var(--color-secondary); }
+.border-accent { border-color: var(--color-accent); }
+.border-surface { border-color: var(--color-surface); }
