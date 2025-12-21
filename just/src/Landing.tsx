@@ -1,9 +1,11 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { Activity, Shield, Clock, Bell, ChartBar, Globe } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Activity, Shield, Bell } from 'lucide-react';
 
 
 function Hero() {
+  const navigate = useNavigate();
   const words = ['Monitor', 'Observe', 'Protect', 'Network', 'Analyze'];
   const [index, setIndex] = useState(0);
 
@@ -45,7 +47,7 @@ function Hero() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
-            <button className="bg-(--cool-sky) text-white px-8 py-4 rounded-lg hover:bg-(--azure-blue) cursor-pointer transition-all gap-2 shadow-lg shadow-blue-200 hover:scale-105">
+            <button className="bg-(--cool-sky) text-white px-8 py-4 rounded-lg hover:bg-(--azure-blue) cursor-pointer transition-all gap-2 shadow-lg shadow-blue-200 hover:scale-105" onClick={() => navigate('/add-website')}>
               Start For Free
             </button>
           </div>
@@ -107,7 +109,7 @@ function Features() {
   )
 }
 
-function App() {
+function Landing() {
   return (
     <div className="min-h-screen">
       <Hero />
@@ -116,4 +118,4 @@ function App() {
   )
 }
 
-export default App
+export default Landing
