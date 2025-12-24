@@ -9,6 +9,13 @@ function AddWebsite() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Website:', url, 'Email:', email);
+    fetch("http://localhost:8080/api/add-website", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        url: url,
+        email: email
+      })})
   };
 
   return (
