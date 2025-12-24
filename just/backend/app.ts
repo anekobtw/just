@@ -1,6 +1,6 @@
-import express from 'express';
-import sqlite3 from 'sqlite3';
-import cors from 'cors';
+import express from "express";
+import sqlite3 from "sqlite3";
+import cors from "cors";
 
 const app = express();
 const db = new sqlite3.Database("websites.db");
@@ -16,25 +16,29 @@ db.run(`
   )
 `);
 
-
-function getAllWebsites(): Promise<{ url: string; email: string; last_checked: string }[]> {
+function getAllWebsites(): Promise<
+  { url: string; email: string; last_checked: string }[]
+> {
   return new Promise((resolve, reject) => {
     db.all("SELECT * FROM websites", [], (err, rows) => {
       if (err) reject(err);
-      else resolve(rows as { url: string; email: string; last_checked: string }[]);
+      else
+        resolve(rows as { url: string; email: string; last_checked: string }[]);
     });
   });
 }
 
-
 setInterval(async () => {
-    let websites = await getAllWebsites();
-    for (let website of websites) {
-        const res = await fetch(website.url);
-        console.log(`${website.url} status: ${res.status}`);
-    }}, 5000
-);
-
+  let websites = await getAllWebsites();
+  for (let website of websites) {
+    try {
+      const res = await fetch(website.url);
+      console.log(`${website.url} status: ${res.status}`);
+    } catch (err) {
+      console.log(`${website.url} is down`);
+    }
+  }
+}, 5000);
 
 // Get all websites
 app.get("/api/get-websites", async (req, res) => {
@@ -46,12 +50,11 @@ app.get("/api/get-websites", async (req, res) => {
   }
 });
 
-
 // Add a new website
 app.post("/api/add-website", (req, res) => {
-    let { url, email } = req.body;
-    db.run("INSERT INTO websites VALUES (?, ?, ?)", [url, email, new Date()])
-    res.json({"status": "success"})
-})
+  let { url, email } = req.body;
+  db.run("INSERT INTO websites VALUES (?, ?, ?)", [url, email, new Date()]);
+  res.json({ status: "success" });
+});
 
-app.listen(8080, () => console.log("Server listening on 8080"))
+app.listen(8080, () => console.log("Server listening on 8080"));

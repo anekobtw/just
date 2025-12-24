@@ -1,21 +1,22 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function AddWebsite() {
   const navigate = useNavigate();
-  const [url, setUrl] = useState('');
-  const [email, setEmail] = useState('');
+  const [url, setUrl] = useState("");
+  const [email, setEmail] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Website:', url, 'Email:', email);
+    console.log("Website:", url, "Email:", email);
     fetch("http://localhost:8080/api/add-website", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         url: url,
-        email: email
-      })})
+        email: email,
+      }),
+    });
   };
 
   return (
@@ -30,7 +31,10 @@ function AddWebsite() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="url" className="block text-sm font-medium text-gray-700 mb-2">
+            <label
+              htmlFor="url"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
               Website URL
             </label>
             <input
@@ -45,7 +49,10 @@ function AddWebsite() {
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700 mb-2"
+            >
               Email for Alerts
             </label>
             <input
@@ -68,7 +75,7 @@ function AddWebsite() {
         </form>
 
         <button
-          onClick={() => navigate('/')}
+          onClick={() => navigate("/")}
           className="mt-6 w-full text-gray-600 hover:text-gray-800 transition-colors text-sm cursor-pointer"
         >
           ← Back to Home
