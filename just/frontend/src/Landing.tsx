@@ -54,6 +54,12 @@ function Hero() {
           >
             Start For Free
           </button>
+          <button
+            className="border border-gray-300 text-gray-600 px-8 py-4 rounded-lg hover:border-(--cool-sky) hover:text-(--azure-blue) cursor-pointer transition-all"
+            onClick={() => navigate("/home")}
+          >
+            View Dashboard
+          </button>
         </div>
       </div>
     </section>

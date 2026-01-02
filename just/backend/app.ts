@@ -12,18 +12,22 @@ db.run(`
   CREATE TABLE IF NOT EXISTS websites (
     url TEXT,
     email TEXT UNIQUE,
-    last_checked TIMESTAMP
+    is_running BOOL,
+    last_checked TIMESTAMP,
+    ping INTEGER
   )
 `);
 
 function getAllWebsites(): Promise<
-  { url: string; email: string; last_checked: string }[]
+  { url: string; email: string; is_running: boolean; last_checked: string; ping: number }[]
 > {
   return new Promise((resolve, reject) => {
     db.all("SELECT * FROM websites", [], (err, rows) => {
-      if (err) reject(err);
-      else
-        resolve(rows as { url: string; email: string; last_checked: string }[]);
+      if (err) {
+        reject(err);
+      } else {
+        resolve(rows as { url: string; email: string; is_running: boolean; last_checked: string; ping: number }[]);
+      }
     });
   });
 }
@@ -31,20 +35,27 @@ function getAllWebsites(): Promise<
 setInterval(async () => {
   let websites = await getAllWebsites();
   for (let website of websites) {
+    const start = Date.now();
     try {
       const res = await fetch(website.url);
-      console.log(`${website.url} status: ${res.status}`);
+      const ping = Date.now() - start;
+      const is_running = res.ok;
+
+      db.run("UPDATE websites SET last_checked = ?, ping = ?, is_running = ? WHERE url = ?", [new Date().toISOString(), ping, is_running, website.url]);
+      console.log(`${website.url} status: ${res.status}, ping: ${ping}ms, running: ${is_running}`);
     } catch (err) {
+      db.run("UPDATE websites SET last_checked = ?, is_running = ? WHERE url = ?", [new Date().toISOString(), false, website.url]);
       console.log(`${website.url} is down`);
     }
   }
 }, 5000);
 
-// Get all websites
+// Get all websites (without exposing email addresses)
 app.get("/api/get-websites", async (req, res) => {
   try {
     const websites = await getAllWebsites();
-    res.json(websites);
+    const sanitized = websites.map(({ url, is_running, last_checked, ping }) => ({ url, is_running, last_checked, ping }));
+    res.json(sanitized);
   } catch (err: any) {
     res.status(500).json({ error: err.message });
   }
@@ -53,7 +64,7 @@ app.get("/api/get-websites", async (req, res) => {
 // Add a new website
 app.post("/api/add-website", (req, res) => {
   let { url, email } = req.body;
-  db.run("INSERT INTO websites VALUES (?, ?, ?)", [url, email, new Date()]);
+  db.run("INSERT INTO websites VALUES (?, ?, ?, ?, ?)", [url, email, true, new Date().toISOString(), 0]);
   res.json({ status: "success" });
 });
 
