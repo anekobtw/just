@@ -42,10 +42,8 @@ setInterval(async () => {
       const is_running = res.ok;
 
       db.run("UPDATE websites SET last_checked = ?, ping = ?, is_running = ? WHERE url = ?", [new Date().toISOString(), ping, is_running, website.url]);
-      console.log(`${website.url} status: ${res.status}, ping: ${ping}ms, running: ${is_running}`);
     } catch (err) {
       db.run("UPDATE websites SET last_checked = ?, is_running = ? WHERE url = ?", [new Date().toISOString(), false, website.url]);
-      console.log(`${website.url} is down`);
     }
   }
 }, 5000);
