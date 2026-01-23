@@ -18,9 +18,7 @@ db.run(`
   )
 `);
 
-function getAllWebsites(): Promise<
-  { url: string; email: string; is_running: boolean; last_checked: string; ping: number }[]
-> {
+function getAllWebsites(): Promise<{ url: string; email: string; is_running: boolean; last_checked: string; ping: number }[]> {
   return new Promise((resolve, reject) => {
     db.all("SELECT * FROM websites", [], (err, rows) => {
       if (err) {
@@ -48,7 +46,6 @@ setInterval(async () => {
   }
 }, 5000);
 
-// Get all websites (without exposing email addresses)
 app.get("/api/get-websites", async (req, res) => {
   try {
     const websites = await getAllWebsites();
@@ -59,7 +56,6 @@ app.get("/api/get-websites", async (req, res) => {
   }
 });
 
-// Add a new website
 app.post("/api/add-website", (req, res) => {
   let { url, email } = req.body;
   db.run("INSERT INTO websites VALUES (?, ?, ?, ?, ?)", [url, email, true, new Date().toISOString(), 0]);

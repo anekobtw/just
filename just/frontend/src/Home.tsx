@@ -19,35 +19,6 @@ interface Website {
   ping: number;
 }
 
-function StatCard({
-  icon: Icon,
-  title,
-  value,
-  subtitle,
-  color,
-}: {
-  icon: React.ElementType;
-  title: string;
-  value: string | number;
-  subtitle?: string;
-  color: string;
-}) {
-  return (
-    <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-      <div className="flex items-center justify-between mb-4">
-        <div
-          className={`w-12 h-12 ${color} rounded-lg flex items-center justify-center`}
-        >
-          <Icon className="w-6 h-6 text-white" />
-        </div>
-      </div>
-      <h3 className="text-3xl font-bold text-gray-800">{value}</h3>
-      <p className="text-gray-500 text-sm mt-1">{title}</p>
-      {subtitle && <p className="text-xs text-gray-400 mt-1">{subtitle}</p>}
-    </div>
-  );
-}
-
 function WebsiteCard({ website }: { website: Website }) {
   return (
     <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-100 hover:shadow-md transition-all hover:border-(--cool-sky)">
@@ -100,6 +71,9 @@ function Home() {
 
   useEffect(() => {
     fetchWebsites();
+    setInterval(() => {
+      fetchWebsites();
+    }, 5000);
   }, []);
 
   const fetchWebsites = async () => {
@@ -109,11 +83,6 @@ function Home() {
     setWebsites(data);
     setLoading(false);
   };
-
-  const onlineCount = websites.filter((w) => w.is_running === true).length;
-  const avgResponseTime = Math.round(
-    websites.reduce((acc, w) => acc + (w.ping || 0), 0) / (websites.length || 1)
-  );
 
   return (
     <div className="min-h-screen bg-(--alice-blue)">
@@ -149,40 +118,8 @@ function Home() {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <StatCard
-            icon={Globe}
-            title="Total Websites"
-            value={websites.length}
-            subtitle="Monitored sites"
-            color="bg-(--cool-sky)"
-          />
-          <StatCard
-            icon={Verified}
-            title="Online"
-            value={onlineCount}
-            subtitle="Currently running"
-            color="bg-green-400"
-          />
-          <StatCard
-            icon={XCircle}
-            title="Offline"
-            value={websites.length - onlineCount}
-            subtitle="Requires attention"
-            color="bg-red-500"
-          />
-          <StatCard
-            icon={Activity}
-            title="Avg Response"
-            value={`${avgResponseTime}ms`}
-            subtitle="Last 24 hours"
-            color="bg-purple-500"
-          />
-        </div>
-
         {/* Websites List */}
-        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+        <div className="rounded-xl p-6">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold text-gray-800">
               Monitored Websites

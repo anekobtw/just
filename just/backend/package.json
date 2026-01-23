@@ -5,7 +5,7 @@
     "cors": "^2.8.5",
     "express": "^5.2.1",
     "node-cron": "^4.2.1",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.0.2"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
